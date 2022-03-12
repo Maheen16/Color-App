@@ -1,0 +1,53 @@
+.copyOverlay {
+  z-index: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.1);
+}
+.copyOverlay.show {
+  position: absolute;
+  width: 100%;
+  transition: transform 0.6s ease-in-out;
+  opacity: 1;
+  transform: scale(10);
+  z-index: 10;
+  /* overflow: hidden; */
+}
+.copy-msg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.2);
+  height: 100%;
+  color: white;
+  opacity: 0;
+}
+
+.copy-msg-container.show {
+  opacity: 1;
+  z-index: 111;
+  transition: all 0.4s ease-in-out;
+  transition-delay: 0.5s;
+}
+.copy-msg {
+  font-weight: bold;
+  text-shadow: 1px 4px black;
+  width: 500%;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 15rem;
+  text-align: center;
+  padding: 2rem;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+.copy-msg-container p {
+  font-size: 7rem;
+  font-weight: 100;
+}

@@ -1,23 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
-
+import seedPalettes from "./seedPalettes";
+import Palette from "./Palette";
+import { generatePalette } from "./ColorHelper";
 function App() {
+  // console.log(generatePalette(seedPalettes[4]));
+  // console.log(seedPalettes);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Palette palette={generatePalette(seedPalettes[5])} />
+
+      {/* {...seedPalettes[4]} object destructuring - whatever inside the seedPalettes will be passed as a prop */}
     </div>
   );
 }
