@@ -6,7 +6,8 @@
   align-items: center;
 }
 .slider p {
-  width: 30%;
+  width: 36%;
+  margin: 0 12px;
 }
 .rc-slider-track {
   background-color: transparent !important;
