@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import Colorbox from "./Components/Colorbox";
 import Navbar from "./Components/Navbar";
-import "./Styling/Palette.css ";
+import "./Styling/Palette.css";
 export const styles = () => ({
   colorboxes: {
     height: "90%",

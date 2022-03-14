@@ -1,16 +1,28 @@
 import seedPalettes from "./seedPalettes";
 import Palette from "./Palette";
 import { generatePalette } from "./ColorHelper";
-function App() {
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./Components/Navbar";
+import { Component } from "react";
+import Colorbox from "./Components/Colorbox";
+class App extends Component {
   // console.log(generatePalette(seedPalettes[4]));
   // console.log(seedPalettes);
-  return (
-    <div className="App">
-      <Palette palette={generatePalette(seedPalettes[5])} />
-
-      {/* {...seedPalettes[4]} object destructuring - whatever inside the seedPalettes will be passed as a prop */}
-    </div>
-  );
+  render() {
+    return (
+      <Routes>
+        <Route path="/" element={<Colorbox />} />
+        <Route
+          path="/palette/:id"
+          element={<Palette palette={generatePalette(seedPalettes[1])} />}
+        />
+        {/* <div>
+        <Palette palette={generatePalette(seedPalettes[1])} />
+        {...seedPalettes[4]} object destructuring - whatever inside the
+        seedPalettes will be passed as a prop
+      </div> */}
+      </Routes>
+    );
+  }
 }
-
 export default App;
