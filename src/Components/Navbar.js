@@ -18,32 +18,36 @@ import "../Styling/Navbar.css";
 export default class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.handleClose = this.handleClose.bind(this);
   }
-  handleClose = () => {};
+
   render() {
-    const { level, levelUpdate, colorFormat, val, open } = this.props;
+    const { level, levelUpdate, colorFormat, val, open, handleClose } =
+      this.props;
     const action = (
       <React.Fragment>
         <IconButton
           size="small"
           aria-label="close"
           color="inherit"
-          onClick={this.handleClose}
+          onClick={handleClose}
         >
           <CloseIcon fontSize="small" />
         </IconButton>
       </React.Fragment>
     );
     return (
-      <AppBar position="static" color="transparent">
+      <AppBar
+        position="static"
+        color="transparent"
+        sx={{ height: "6%", justifyContent: "center" }}
+      >
         <Box className="navbar-container">
           <Box className="logo-slider">
             <Typography variant="h5" className="logo">
               ColorApp
             </Typography>
             <Box className="slider">
-              <Typography>level : {level}</Typography>
+              <Typography sx={{ fontSize: "16px" }}>Level : {level}</Typography>
               <Slider
                 defaultValue={level}
                 min={100}
@@ -67,9 +71,9 @@ export default class Navbar extends Component {
           </FormControl>
           <Snackbar
             open={open}
-            autoHideDuration={6000}
+            autoHideDuration={3000}
             onClose={this.handleClose}
-            message="Format Changed"
+            message={`Format Changed to ${val.toUpperCase()}`}
             action={action}
           />
         </Box>
