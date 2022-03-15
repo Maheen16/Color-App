@@ -52,6 +52,11 @@ export const styles = (theme) => ({
     width: "100%",
     color: "black",
     textTransform: "uppercase",
+    "& span": {
+      padding: "12px",
+      letterSpacing: "2px",
+      fontSize: "13px",
+    },
   },
 });
 class Colorbox extends Component {
@@ -90,8 +95,8 @@ class Colorbox extends Component {
                 <span>{name}</span>
               </div>
               <button className="copyBtn">COPY</button>
+              <span className={this.props.classes.morebtn}>More</span>
             </Box>
-            <span className={this.props.classes.morebtn}>More</span>
           </Box>
         </CopyToClipboard>
       </>

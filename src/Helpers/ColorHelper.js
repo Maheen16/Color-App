@@ -9,6 +9,7 @@ function generatePalette(starterPalette) {
     emoji: starterPalette.emoji,
     colors: {},
   };
+  console.log(newPalette.id);
   for (let level of levels) {
     newPalette.colors[level] = [];
   }

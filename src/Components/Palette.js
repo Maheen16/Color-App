@@ -1,9 +1,11 @@
 import { Box } from "@mui/material";
 import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
-import Colorbox from "./Components/Colorbox";
-import Navbar from "./Components/Navbar";
-import "./Styling/Palette.css";
+import Colorbox from "./Colorbox";
+import Navbar from "./Navbar";
+import "../Styling/Palette.css";
+import { generatePalette } from "../Helpers/ColorHelper";
+import seedPalettes from "../Helpers/seedPalettes";
 export const styles = () => ({
   colorboxes: {
     height: "90%",
@@ -27,7 +29,6 @@ class Palette extends Component {
   };
   colorFormat = (e) => {
     this.setState({ colorFormatType: e.target.value, open: true });
-    // alert(e.target.value);
   };
   handleClose = (event, reason) => {
     this.setState({ open: false });
@@ -35,14 +36,26 @@ class Palette extends Component {
       return;
     }
   };
-
+  findPaletteName = () => {
+    console.log(this.props.params.id);
+    return seedPalettes.find((palette) => {
+      // console.log(palette);
+      return palette.id === this.props.params.id;
+    });
+  };
   render() {
     const { level, colorFormatType } = this.state;
-    const { colors, paletteName, emoji } = this.props.palette;
-    const colorboxes = colors[level].map((bgcolor, index) => {
-      // console.log(bgcolor[colorFormatType]);
+    const { colors, paletteName, emoji } = generatePalette(
+      this.findPaletteName()
+    );
+    const colorboxes = colors[level].map((bgcolor) => {
+      console.log(this.props.params.id);
       return (
-        <Colorbox background={bgcolor[colorFormatType]} name={bgcolor.name} />
+        <Colorbox
+          background={bgcolor[colorFormatType]}
+          name={bgcolor.name}
+          key={bgcolor.name}
+        />
       );
     });
     // console.log(this.props.palette);
