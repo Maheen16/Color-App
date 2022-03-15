@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "../Styling/Navbar.css";
@@ -43,9 +44,11 @@ export default class Navbar extends Component {
       >
         <Box className="navbar-container">
           <Box className="logo-slider">
-            <Typography variant="h5" className="logo">
-              ColorApp
-            </Typography>
+            <Link to="/" className="link">
+              <Typography variant="h5" className="logo">
+                ColorApp
+              </Typography>
+            </Link>
             <Box className="slider">
               <Typography sx={{ fontSize: "16px" }}>Level : {level}</Typography>
               <Slider
