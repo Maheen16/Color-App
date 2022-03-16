@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import "../Styling/Palette.css";
 import { generatePalette } from "../Helpers/ColorHelper";
 import seedPalettes from "../Helpers/seedPalettes";
-export const styles = () => ({
+const styles = () => ({
   colorboxes: {
     height: "90%",
   },
