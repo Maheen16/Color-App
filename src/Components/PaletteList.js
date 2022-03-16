@@ -5,7 +5,7 @@ import { withStyles } from "@mui/styles";
 export const styles = () => ({
   root: {
     backgroundColor: "purple",
-    height: "100vh",
+    height: "100%",
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
@@ -36,7 +36,7 @@ export const styles = () => ({
 class PaletteList extends Component {
   render() {
     const { allPalettes, classes } = this.props;
-    console.log(allPalettes);
+    // console.log(allPalettes);
     return (
       <div className={classes.root}>
         <div className={classes.container}>
@@ -46,9 +46,6 @@ class PaletteList extends Component {
           </nav>
           <div className={classes.palettes}>
             {allPalettes.map((palette) => {
-              {
-                /* console.log(palette); */
-              }
               return <MiniPalette {...palette} key={palette.id} />;
             })}
           </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     backgroundColor: "white",
@@ -44,6 +44,7 @@ const useStyles = makeStyles({
 
 export default function MiniPalette({ ...palette }) {
   const classes = useStyles();
+  const navigate = useNavigate();
   // console.log(palette);
   const miniColorBoxes = palette.colors.map((color) => {
     return (
@@ -54,8 +55,11 @@ export default function MiniPalette({ ...palette }) {
       ></div>
     );
   });
+  const handleClick = (id) => {
+    navigate(`palette/${id}`);
+  };
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={() => handleClick(palette.id)}>
       <div className={classes.colors}>{miniColorBoxes}</div>
       <h5 className={classes.title}>
         {palette.paletteName}
