@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   colors: {
     background: "#dae1e4",
     width: "100%",
-    height: "150px",
+    height: "140px",
     borderRadius: "5px",
     overflow: "hidden",
   },
