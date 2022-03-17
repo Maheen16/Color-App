@@ -10,6 +10,13 @@ const styles = () => ({
   colorboxes: {
     height: "90%",
   },
+  section: {
+    height: "100vh",
+    position: "fixed",
+    width: "100%",
+    top: 0,
+    transition: "opactiy 0.5s ease-in-out",
+  },
 });
 class Palette extends Component {
   constructor(props) {
@@ -64,7 +71,7 @@ class Palette extends Component {
     });
     // console.log(this.props.palette);
     return (
-      <div style={{ height: "100vh" }}>
+      <div className={this.props.classes.section}>
         <Navbar
           level={level}
           levelUpdate={this.levelUpdate}
