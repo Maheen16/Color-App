@@ -37,7 +37,7 @@ class Palette extends Component {
     }
   };
   findPaletteName = () => {
-    console.log(this.props.params.id);
+    // console.log(this.props.params.id);
     return seedPalettes.find((palette) => {
       // console.log(palette);
       return palette.id === this.props.params.id;
@@ -45,16 +45,20 @@ class Palette extends Component {
   };
   render() {
     const { level, colorFormatType } = this.state;
+    const { id } = this.props.params;
+    // console.log(id);
     const { colors, paletteName, emoji } = generatePalette(
       this.findPaletteName()
     );
     const colorboxes = colors[level].map((bgcolor) => {
-      console.log(this.props.params.id);
+      // console.log(bgcolor);
       return (
         <Colorbox
           background={bgcolor[colorFormatType]}
           name={bgcolor.name}
           key={bgcolor.name}
+          paletteId={id}
+          colorId={bgcolor.id}
         />
       );
     });
