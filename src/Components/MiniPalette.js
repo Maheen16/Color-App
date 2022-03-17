@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     backgroundColor: "white",
-    border: "1px solid black",
-    padding: "0.5rem",
+    padding: "0.3rem",
     position: "relative",
+    borderRadius: "5px",
     overflow: "hidden",
     width: "100%",
     "&:hover": {

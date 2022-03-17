@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import "../Styling/Colorbox.css";
+import { Link } from "react-router-dom";
 
 export const styles = (theme) => ({
   box: {
@@ -35,14 +36,7 @@ export const styles = (theme) => ({
       opacity: 1,
     },
   },
-  morebtn: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    background: "rgba(255,255,255,0.3)",
-    textTransform: "uppercase",
-    fontSize: "12px",
-  },
+
   boxContent: {
     position: "absolute",
     left: "0px",
@@ -76,12 +70,12 @@ class Colorbox extends Component {
     });
   };
   render() {
-    const { background, name } = this.props;
+    const { background, name, classes } = this.props;
     const { copied } = this.state;
     return (
       <>
         <CopyToClipboard text={background} onCopy={this.changeCopyState}>
-          <Box sx={{ background }} className={this.props.classes.box}>
+          <Box sx={{ background }} className={classes.box}>
             <div
               className={`copyOverlay ${copied && "show"}`}
               style={{ background }}
@@ -90,12 +84,14 @@ class Colorbox extends Component {
               <h1 className="copy-msg">Copied ! </h1>
               <p>{background}</p>
             </div>
-            <Box className={this.props.classes.parentContainer}>
-              <div className={this.props.classes.boxContent}>
+            <Box className={classes.parentContainer}>
+              <div className={classes.boxContent}>
                 <span>{name}</span>
               </div>
               <button className="copyBtn">COPY</button>
-              <span className={this.props.classes.morebtn}>More</span>
+              <Link to="/" onClick={(e) => e.stopPropagation()}>
+                <span className="moreBtn">More</span>
+              </Link>
             </Box>
           </Box>
         </CopyToClipboard>

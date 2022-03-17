@@ -11,6 +11,7 @@ function App() {
     <Routes>
       <Route path="/" element={<PaletteList allPalettes={seedPalettes} />} />
       <Route path="/palette/:id" element={<WrappedComponent />} />
+      <Route path="/palette/:paletteId/:colorId" element={<h1>Hello</h1>} />
     </Routes>
   );
 }

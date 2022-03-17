@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 import { withStyles } from "@mui/styles";
+import { Typography } from "@mui/material";
 export const styles = () => ({
   root: {
     backgroundColor: "purple",
@@ -24,6 +25,7 @@ export const styles = () => ({
     color: "white",
     justifyContent: "space-between",
     alignItems: "center",
+    margin: "1.2rem 0",
   },
   palettes: {
     display: "grid",
@@ -41,7 +43,7 @@ class PaletteList extends Component {
       <div className={classes.root}>
         <div className={classes.container}>
           <nav className={classes.nav}>
-            <h1>Color App</h1>
+            <Typography variant="h4">Color App</Typography>
             <a>Create Palette</a>
           </nav>
           <div className={classes.palettes}>
