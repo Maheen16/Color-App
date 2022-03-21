@@ -32,7 +32,7 @@ class Palette extends Component {
   }
   levelUpdate = (level) => {
     this.setState({ level });
-    console.log(level);
+    // console.log(level);
   };
   colorFormat = (e) => {
     this.setState({ colorFormatType: e.target.value, open: true });
@@ -44,7 +44,6 @@ class Palette extends Component {
     }
   };
   findPaletteName = () => {
-    // console.log(this.props.params.id);
     return seedPalettes.find((palette) => {
       // console.log(palette);
       return palette.id === this.props.params.id;
@@ -58,18 +57,18 @@ class Palette extends Component {
       this.findPaletteName()
     );
     const colorboxes = colors[level].map((bgcolor) => {
-      // console.log(bgcolor);
       return (
         <Colorbox
+          colors={colors}
           background={bgcolor[colorFormatType]}
           name={bgcolor.name}
           key={bgcolor.name}
           paletteId={id}
           colorId={bgcolor.id}
+          showLink={true}
         />
       );
     });
-    // console.log(this.props.palette);
     return (
       <div className={this.props.classes.section}>
         <Navbar

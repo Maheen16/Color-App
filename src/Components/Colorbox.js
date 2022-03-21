@@ -62,7 +62,6 @@ class Colorbox extends Component {
     this.changeCopyState = this.changeCopyState.bind(this);
   }
   changeCopyState = () => {
-    console.log("copied");
     this.setState({ copied: true }, () => {
       setTimeout(() => {
         this.setState({ copied: false });
@@ -70,9 +69,9 @@ class Colorbox extends Component {
     });
   };
   render() {
-    const { background, name, classes, colorId, paletteId } = this.props;
-    // console.log("palette Id is", paletteId);
-    // console.log("color Id is", colorId);
+    const { background, name, classes, colorId, paletteId, showLink } =
+      this.props;
+    // console.log(colors);
     const { copied } = this.state;
     return (
       <>
@@ -91,12 +90,14 @@ class Colorbox extends Component {
                 <span>{name}</span>
               </div>
               <button className="copyBtn">COPY</button>
-              <Link
-                to={`/palette/${paletteId}/${colorId}`}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <span className="moreBtn">More</span>
-              </Link>
+              {showLink && (
+                <Link
+                  to={`/palette/${paletteId}/${colorId}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="moreBtn">More</span>
+                </Link>
+              )}
             </Box>
           </Box>
         </CopyToClipboard>

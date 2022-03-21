@@ -7,15 +7,17 @@ const WrappedComponent = (props) => {
   const params = useParams();
   return <Palette params={params} {...props} />;
 };
+const Wrapper = (props) => {
+  const params = useParams();
+  // console.log(params);
+  return <SingleColorPalette params={params} {...props} />;
+};
 function App() {
   return (
     <Routes>
       <Route path="/" element={<PaletteList allPalettes={seedPalettes} />} />
       <Route path="/palette/:id" element={<WrappedComponent />} />
-      <Route
-        path="/palette/:paletteId/:colorId"
-        element={<SingleColorPalette />}
-      />
+      <Route path="/palette/:paletteId/:colorId" element={<Wrapper />} />
     </Routes>
   );
 }
