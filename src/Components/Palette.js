@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import "../Styling/Palette.css";
 import { generatePalette } from "../Helpers/ColorHelper";
 import seedPalettes from "../Helpers/seedPalettes";
+import Footer from "./Footer";
 const styles = () => ({
   colorboxes: {
     height: "90%",
@@ -25,6 +26,7 @@ class Palette extends Component {
       level: 500,
       colorFormatType: "hex",
       open: false,
+      isShowingAllColors: true,
     };
     this.levelUpdate = this.levelUpdate.bind(this);
     this.colorFormat = this.colorFormat.bind(this);
@@ -78,6 +80,7 @@ class Palette extends Component {
           val={this.state.colorFormatType}
           open={this.state.open}
           handleClose={this.handleClose}
+          showingAllColors={this.state.isShowingAllColors}
         />
         <Box className={this.props.classes.colorboxes}>{colorboxes}</Box>
         <Box
@@ -88,10 +91,7 @@ class Palette extends Component {
             width: "100%",
           }}
         >
-          <footer className="footer">
-            {paletteName}
-            <span>{emoji}</span>
-          </footer>
+          <Footer paletteName={paletteName} emoji={emoji} />
         </Box>
       </div>
     );

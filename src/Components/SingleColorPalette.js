@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { generatePalette } from "../Helpers/ColorHelper";
+import { Box } from "@mui/material";
 import seedPalettes from "../Helpers/seedPalettes";
 import { withStyles } from "@mui/styles";
-
+import Navbar from "./Navbar";
 import ColorBox from "./Colorbox";
+import Footer from "./Footer";
 const styles = () => ({
   colorboxes: {
     height: "90%",
@@ -23,6 +25,10 @@ class SingleColorPalette extends Component {
       generatePalette(this.findPaletteName()),
       this.props.params.colorId
     );
+    this.state = {
+      open: false,
+      colorFormatType: "hex",
+    };
     // console.log(this._shades);
   }
   gatherShades = (palette, colorToFilterBy) => {
@@ -36,6 +42,15 @@ class SingleColorPalette extends Component {
     }
     return shades.slice(1);
   };
+  colorFormat = (e) => {
+    this.setState({ colorFormatType: e.target.value, open: true });
+  };
+  handleClose = (event, reason) => {
+    this.setState({ open: false });
+    if (reason === "clickaway") {
+      return;
+    }
+  };
   findPaletteName = () => {
     return seedPalettes.find((palette) => {
       // console.log(palette);
@@ -43,25 +58,39 @@ class SingleColorPalette extends Component {
     });
   };
   render() {
+    const { colorFormatType } = this.state;
+    const { emoji, paletteName } = generatePalette(this.findPaletteName());
+    console.log(emoji, paletteName);
     const colorBoxes = this._shades.map((color) => {
-      // console.log(color);
       return (
         <ColorBox
-          background={color.hex}
+          background={color[colorFormatType]}
           name={color.name}
           key={color.name}
           showLink={false}
         />
       );
     });
-    // console.log(colors, paletteName, id, emoji);
-    // console.log(colorId);
     return (
-      <div>
-        <h1>Single Color Palette</h1>
-        <div className={this.props.classes.section}>
-          <div className={this.props.classes.colorboxes}>{colorBoxes}</div>
-        </div>
+      <div className={this.props.classes.section}>
+        <Navbar
+          showingAllColors={false}
+          colorFormat={this.colorFormat}
+          val={this.state.colorFormatType}
+          handleClose={this.handleClose}
+          open={this.state.open}
+        />
+        <div className={this.props.classes.colorBoxes}>{colorBoxes}</div>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Footer paletteName={paletteName} emoji={emoji} />
+        </Box>
       </div>
     );
   }

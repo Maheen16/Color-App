@@ -6,7 +6,6 @@ import {
   Select,
   MenuItem,
   Snackbar,
-  Button,
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,8 +21,15 @@ export default class Navbar extends Component {
   }
 
   render() {
-    const { level, levelUpdate, colorFormat, val, open, handleClose } =
-      this.props;
+    const {
+      level,
+      levelUpdate,
+      colorFormat,
+      val,
+      open,
+      handleClose,
+      showingAllColors,
+    } = this.props;
     const action = (
       <React.Fragment>
         <IconButton
@@ -49,16 +55,20 @@ export default class Navbar extends Component {
                 ColorApp
               </Typography>
             </Link>
-            <Box className="slider">
-              <Typography sx={{ fontSize: "16px" }}>Level : {level}</Typography>
-              <Slider
-                defaultValue={level}
-                min={100}
-                max={900}
-                step={100}
-                onAfterChange={levelUpdate}
-              />
-            </Box>
+            {showingAllColors && (
+              <Box className="slider">
+                <Typography sx={{ fontSize: "16px" }}>
+                  Level : {level}
+                </Typography>
+                <Slider
+                  defaultValue={level}
+                  min={100}
+                  max={900}
+                  step={100}
+                  onAfterChange={levelUpdate}
+                />
+              </Box>
+            )}
           </Box>
           <FormControl variant="standard" sx={{ width: "15%", mr: 4 }}>
             <Select
@@ -69,7 +79,7 @@ export default class Navbar extends Component {
             >
               <MenuItem value="hex">HEX - #ffffff</MenuItem>
               <MenuItem value="rgb">RGB - (255,255,255)</MenuItem>
-              <MenuItem value="rgba">RGBA - (255,255,255 , 1.0)</MenuItem>
+              <MenuItem value="rgba">RGBA - (255,255,255,1.0)</MenuItem>
             </Select>
           </FormControl>
           <Snackbar
