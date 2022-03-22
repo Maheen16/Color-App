@@ -11,9 +11,6 @@ import { Link } from "react-router-dom";
 const styles = () => ({
   colorboxes: {
     height: "90%",
-    // "& .box": {
-    //   height: "50%",
-    // },
   },
   section: {
     height: "100vh",

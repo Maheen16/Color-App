@@ -4,7 +4,7 @@ import { withStyles } from "@mui/styles";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import "../Styling/Colorbox.css";
 import { Link } from "react-router-dom";
-
+import chroma from "chroma-js";
 export const styles = (theme) => ({
   box: {
     width: "20%",
@@ -47,10 +47,16 @@ export const styles = (theme) => ({
     color: "black",
     textTransform: "uppercase",
     "& span": {
-      padding: "12px",
+      paddingLeft: "4px",
       letterSpacing: "2px",
       fontSize: "13px",
     },
+  },
+  lightText: {
+    color: "white",
+  },
+  darkText: {
+    color: "black",
   },
 });
 class Colorbox extends Component {
@@ -71,8 +77,9 @@ class Colorbox extends Component {
   render() {
     const { background, name, classes, colorId, paletteId, showLink } =
       this.props;
-    // console.log(colors);
     const { copied } = this.state;
+    const isDarkColor = chroma(background).luminance() <= 0.09;
+    const isLightColor = chroma(background).luminance() >= 0.7;
     return (
       <>
         <CopyToClipboard text={background} onCopy={this.changeCopyState}>
@@ -83,13 +90,29 @@ class Colorbox extends Component {
             />
             <div className={`copy-msg-container ${copied && "show"}`}>
               <h1 className="copy-msg">Copied ! </h1>
-              <p>{background}</p>
+              <p
+                className={
+                  isLightColor
+                    ? `${this.props.classes.darkText}`
+                    : `${this.props.classes.lightText}`
+                }
+              >
+                {background}
+              </p>
             </div>
             <Box className={classes.parentContainer}>
               <div className={classes.boxContent}>
-                <span>{name}</span>
+                <span
+                  className={
+                    isDarkColor ? `${this.props.classes.lightText}` : ""
+                  }
+                >
+                  {name}
+                </span>
               </div>
-              <button className="copyBtn">COPY</button>
+              <button className={`copyBtn ${isLightColor ? "darkText" : ""}`}>
+                COPY
+              </button>
               {showLink && (
                 <Link
                   to={`/palette/${paletteId}/${colorId}`}
