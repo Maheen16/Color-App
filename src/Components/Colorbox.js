@@ -9,6 +9,7 @@ export const styles = (theme) => ({
   box: {
     width: "20%",
     height: "25%",
+    height: "25%",
     margin: "0 auto",
     display: "inline-block",
     position: "relative",
@@ -36,7 +37,6 @@ export const styles = (theme) => ({
       opacity: 1,
     },
   },
-
   boxContent: {
     position: "absolute",
     left: "0px",

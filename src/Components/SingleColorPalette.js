@@ -3,12 +3,17 @@ import { generatePalette } from "../Helpers/ColorHelper";
 import { Box } from "@mui/material";
 import seedPalettes from "../Helpers/seedPalettes";
 import { withStyles } from "@mui/styles";
+import "../Styling/Colorbox.css";
 import Navbar from "./Navbar";
 import ColorBox from "./Colorbox";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 const styles = () => ({
   colorboxes: {
     height: "90%",
+    // "& .box": {
+    //   height: "50%",
+    // },
   },
   section: {
     height: "100vh",
@@ -17,6 +22,11 @@ const styles = () => ({
     top: 0,
     transition: "opactiy 0.5s ease-in-out",
   },
+  // SingleColorPalette: {
+  //   "& .box": {
+  //     height: "50%",
+  //   },
+  // },
 });
 class SingleColorPalette extends Component {
   constructor(props) {
@@ -59,8 +69,8 @@ class SingleColorPalette extends Component {
   };
   render() {
     const { colorFormatType } = this.state;
-    const { emoji, paletteName } = generatePalette(this.findPaletteName());
-    console.log(emoji, paletteName);
+    const { emoji, paletteName, id } = generatePalette(this.findPaletteName());
+    // console.log(emoji, paletteName, id);
     const colorBoxes = this._shades.map((color) => {
       return (
         <ColorBox
@@ -80,7 +90,14 @@ class SingleColorPalette extends Component {
           handleClose={this.handleClose}
           open={this.state.open}
         />
-        <div className={this.props.classes.colorBoxes}>{colorBoxes}</div>
+        <div className={this.props.classes.colorboxes}>
+          {colorBoxes}
+          <div className="goBack box">
+            <Link to={`/palette/${id}`} className="goBack-btn">
+              GO BACK
+            </Link>
+          </div>
+        </div>
         <Box
           sx={{
             display: "flex",
