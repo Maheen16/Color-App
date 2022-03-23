@@ -12,6 +12,7 @@
 } */
 .box.goBack {
   background-color: black;
+  height: 50%;
 }
 .goBack-btn {
   position: absolute;
