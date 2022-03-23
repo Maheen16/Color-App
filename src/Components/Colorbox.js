@@ -58,6 +58,70 @@ export const styles = (theme) => ({
   darkText: {
     color: "black",
   },
+  copyOverlay: {
+    zIndex: 0,
+    opacity: 0,
+    width: "100%",
+    height: "100%",
+    transform: "scale(0.1)",
+  },
+  showOverlay: {
+    position: "absolute",
+    width: " 100%",
+    transition: "transform 0.6s ease-in-out",
+    opacity: 1,
+    transform: "scale(10)",
+    zIndex: 10,
+  },
+  copyMsgContainer: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+    fontSize: "4rem",
+    transform: "scale(0.1)",
+    color: "white",
+    opacity: 0,
+    "& p": {
+      fontWeight: 100,
+      fontSize: "2rem",
+    },
+  },
+  show: {
+    opacity: 1,
+    zIndex: 25,
+    transform: "scale(1)",
+    transition: " all 0.4s ease-in-out",
+    transitionDelay: "0.3s",
+  },
+  copyMsg: {
+    fontWeight: 400,
+    textShadow: "1px 2px black",
+    width: "100%",
+    background: "rgba(255, 255, 255, 0.1)",
+    textAlign: "center",
+    padding: "2rem",
+    marginBottom: 0,
+    textTransform: "uppercase",
+  },
+  moreBtn: {
+    right: 0,
+    width: "60px",
+    border: "none",
+    bottom: 0,
+    height: "30px",
+    position: "absolute",
+    background: "rgba(255, 255, 255, 0.3)",
+    textAlign: "center",
+    color: "black",
+    lineHeight: "30px",
+    textTransform: "uppercase",
+  },
 });
 class Colorbox extends Component {
   constructor(props) {
@@ -78,6 +142,7 @@ class Colorbox extends Component {
     const { background, name, classes, colorId, paletteId, showLink } =
       this.props;
     const { copied } = this.state;
+    console.log(copied);
     const isDarkColor = chroma(background).luminance() <= 0.09;
     const isLightColor = chroma(background).luminance() >= 0.7;
     return (
@@ -85,7 +150,9 @@ class Colorbox extends Component {
         <CopyToClipboard text={background} onCopy={this.changeCopyState}>
           <Box sx={{ background }} className={classes.box}>
             <div
-              className={`copyOverlay ${copied && "show"}`}
+              className={`${this.props.classes.copyOverlay} ${
+                copied && this.props.classes.showOverlay
+              }`}
               style={{ background }}
             />
             <div
@@ -122,7 +189,7 @@ class Colorbox extends Component {
                   to={`/palette/${paletteId}/${colorId}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <span className="moreBtn">More</span>
+                  <span className={this.props.classes.moreBtn}>More</span>
                 </Link>
               )}
             </Box>

@@ -19,11 +19,37 @@ const styles = () => ({
     top: 0,
     transition: "opactiy 0.5s ease-in-out",
   },
-  // SingleColorPalette: {
-  //   "& .box": {
-  //     height: "50%",
-  //   },
-  // },
+  box: {
+    width: "20%",
+    cursor: "pointer",
+    height: "25%",
+    margin: "0 auto",
+    display: "inline-block",
+    position: "relative",
+    marginBottom: "-4.5px",
+  },
+  goBack: {
+    height: "50%",
+    background: "black",
+  },
+  goBackBtn: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    display: "block",
+    width: "100px",
+    height: "30px",
+    marginLeft: "-50px",
+    marginTop: "-15px",
+    textAlign: "center",
+    border: "none",
+    color: "white",
+    textDecoration: "none",
+    background: "rgba(255,255,255,0.3)",
+    fontSize: "14px",
+    lineHeight: "30px",
+    cursor: "pointer",
+  },
 });
 class SingleColorPalette extends Component {
   constructor(props) {
@@ -89,8 +115,13 @@ class SingleColorPalette extends Component {
         />
         <div className={this.props.classes.colorboxes}>
           {colorBoxes}
-          <div className="goBack box">
-            <Link to={`/palette/${id}`} className="goBack-btn">
+          <div
+            className={`${this.props.classes.box} ${this.props.classes.goBack}`}
+          >
+            <Link
+              to={`/palette/${id}`}
+              className={this.props.classes.goBackBtn}
+            >
               GO BACK
             </Link>
           </div>
