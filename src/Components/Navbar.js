@@ -13,19 +13,20 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import "../Styling/Navbar.css";
+import { withStyles } from "@mui/styles";
+import styles from "../Styling/NavbarStyles";
 
-export default class Navbar extends Component {
+class Navbar extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     const {
       level,
       levelUpdate,
       colorFormat,
       val,
+      classes,
       open,
       handleClose,
       showingAllColors,
@@ -46,17 +47,17 @@ export default class Navbar extends Component {
       <AppBar
         position="static"
         color="transparent"
-        sx={{ height: "6%", justifyContent: "center" }}
+        sx={{ height: "7%", justifyContent: "center" }}
       >
-        <Box className="navbar-container">
-          <Box className="logo-slider">
-            <Link to="/" className="link">
-              <Typography variant="h5" className="logo">
-                ColorApp
-              </Typography>
-            </Link>
+        <Box className={classes.navbarContainer}>
+          <Box className={classes.logoSlider}>
+            <div className={classes.logo}>
+              <Link to="/" className={classes.link}>
+                <Typography variant="h5">ColorApp</Typography>
+              </Link>
+            </div>
             {showingAllColors && (
-              <Box className="slider">
+              <Box className={classes.slider}>
                 <Typography sx={{ fontSize: "16px" }}>
                   Level : {level}
                 </Typography>
@@ -94,3 +95,4 @@ export default class Navbar extends Component {
     );
   }
 }
+export default withStyles(styles)(Navbar);

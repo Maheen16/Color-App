@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import "../Styling/Palette.css";
+import { withStyles } from "@mui/styles";
+import styles from "../Styling/FooterStyles";
 
-export default class Footer extends Component {
+class Footer extends Component {
   render() {
     const { emoji, paletteName } = this.props;
     return (
       <>
-        <footer className="footer">
+        <footer className={this.props.classes.footer}>
           {paletteName}
           <span>{emoji}</span>
         </footer>
@@ -14,3 +15,4 @@ export default class Footer extends Component {
     );
   }
 }
+export default withStyles(styles)(Footer);

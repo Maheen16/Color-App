@@ -3,22 +3,11 @@ import React, { Component } from "react";
 import { withStyles } from "@mui/styles";
 import Colorbox from "./Colorbox";
 import Navbar from "./Navbar";
-import "../Styling/Palette.css";
 import { generatePalette } from "../Helpers/ColorHelper";
 import seedPalettes from "../Helpers/seedPalettes";
 import Footer from "./Footer";
-const styles = () => ({
-  colorboxes: {
-    height: "90%",
-  },
-  section: {
-    height: "100vh",
-    position: "fixed",
-    width: "100%",
-    top: 0,
-    transition: "opactiy 0.5s ease-in-out",
-  },
-});
+import styles from "../Styling/PaletteStyles";
+
 class Palette extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +23,6 @@ class Palette extends Component {
   }
   levelUpdate = (level) => {
     this.setState({ level });
-    // console.log(level);
   };
   colorFormat = (e) => {
     this.setState({ colorFormatType: e.target.value, open: true });
