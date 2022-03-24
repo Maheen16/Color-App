@@ -12,6 +12,7 @@ import { withStyles } from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
+import chroma from "chroma-js";
 
 const styles = () => ({
   chromePicker: {
@@ -28,22 +29,53 @@ class NewPaletteForm extends Component {
     super(props);
     this.state = {
       open: true,
-      btnNewColor: "",
+      currentColor: "teal",
+      newColors: ["#2F2F51", "#CB342D", "#DF9C99", "#0C5D5D"],
+      isPaletteFull: false,
     };
   }
+
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
+
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+
   colorHandleChange = (newColor) => {
-    console.log(newColor.hex);
-    // this.setState({ btnNewColor: newColor.hex });
+    // console.log(newColor);
+    this.setState({ currentColor: newColor.hex });
+  };
+
+  creatColors = () => {
+    console.log("clicked");
+    this.setState({
+      newColors: [...this.state.newColors, this.state.currentColor],
+    });
+    if (this.state.newColors.length >= 20) {
+      this.setState({ isPaletteFull: true });
+    }
+  };
+
+  clearPalette = () => {
+    this.setState({ newColors: [] });
+  };
+
+  randomColor = () => {
+    let randomColor = chroma.random();
+    console.log(this.state.newColors.length);
+    this.setState({
+      newColors: [...this.state.newColors, randomColor.hex()],
+    });
+    if (this.state.newColors.length >= 20) {
+      this.setState({ isPaletteFull: true });
+    }
   };
   render() {
-    const { open, btnNewColor } = this.state;
+    const { open, currentColor, newColors, isPaletteFull } = this.state;
     const { classes } = this.props;
+
     const Main = styled("main", {
       shouldForwardProp: (prop) => prop !== "open",
     })(({ theme, open }) => ({
@@ -62,6 +94,7 @@ class NewPaletteForm extends Component {
         marginLeft: 0,
       }),
     }));
+
     const DrawerHeader = styled("div")(({ theme }) => ({
       display: "flex",
       alignItems: "center",
@@ -87,6 +120,7 @@ class NewPaletteForm extends Component {
         }),
       }),
     }));
+
     return (
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -153,32 +187,51 @@ class NewPaletteForm extends Component {
                 mt: 2,
               }}
             >
-              <Button variant="contained" color="secondary" sx={{ mr: 2 }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={{ mr: 2 }}
+                onClick={this.clearPalette}
+              >
                 Clear Palette
               </Button>
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.randomColor}
+              >
                 Random Color
               </Button>
             </Box>
             <Box className={classes.chromePicker}>
               <ChromePicker
-                color="purple"
-                onChangeComplete={(newColor) =>
-                  this.colorHandleChange(newColor)
-                }
+                color={currentColor}
+                onChangeComplete={this.colorHandleChange}
               />
             </Box>
             <Button
-              variant="contained"
               color="primary"
+              variant="contained"
+              disabled={isPaletteFull}
               sx={{ mt: 2, width: "90%", p: 2 }}
+              style={{ backgroundColor: currentColor }}
+              onClick={this.creatColors}
             >
-              Add Palette
+              {isPaletteFull ? "Palette Full !!" : "Add Palette"}
             </Button>
           </Box>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
+          <ul>
+            {newColors?.map((color, index) => {
+              return (
+                <li style={{ backgroundColor: color }} key={index}>
+                  {color}
+                </li>
+              );
+            })}
+          </ul>
         </Main>
       </Box>
     );
