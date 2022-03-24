@@ -59,7 +59,7 @@ class NewPaletteForm extends Component {
   };
 
   clearPalette = () => {
-    this.setState({ newColors: [] });
+    this.setState({ newColors: [], isPaletteFull: false });
   };
 
   randomColor = () => {
@@ -75,6 +75,7 @@ class NewPaletteForm extends Component {
   render() {
     const { open, currentColor, newColors, isPaletteFull } = this.state;
     const { classes } = this.props;
+    // const isLightColor = chroma(background).luminance() >= 0.7;
 
     const Main = styled("main", {
       shouldForwardProp: (prop) => prop !== "open",
@@ -213,7 +214,15 @@ class NewPaletteForm extends Component {
               color="primary"
               variant="contained"
               disabled={isPaletteFull}
-              sx={{ mt: 2, width: "90%", p: 2 }}
+              sx={{
+                // color:isLightColor ? "black" :"white"
+                mt: 2,
+                width: "90%",
+                p: 2,
+                // color: {isLightColor ? "black" : "white"}
+                fontWeight: "bold",
+                fontSize: "23px",
+              }}
               style={{ backgroundColor: currentColor }}
               onClick={this.creatColors}
             >
