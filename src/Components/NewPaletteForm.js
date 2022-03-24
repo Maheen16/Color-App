@@ -13,6 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
 import chroma from "chroma-js";
+import DraggablePalette from "./DraggablePalette";
 
 const styles = () => ({
   chromePicker: {
@@ -49,13 +50,16 @@ class NewPaletteForm extends Component {
   };
 
   creatColors = () => {
-    console.log("clicked");
-    this.setState({
-      newColors: [...this.state.newColors, this.state.currentColor],
-    });
-    if (this.state.newColors.length >= 20) {
-      this.setState({ isPaletteFull: true });
-    }
+    this.setState(
+      {
+        newColors: [...this.state.newColors, this.state.currentColor],
+      },
+      () => {
+        if (this.state.newColors.length >= 20) {
+          this.setState({ isPaletteFull: true });
+        }
+      }
+    );
   };
 
   clearPalette = () => {
@@ -65,12 +69,16 @@ class NewPaletteForm extends Component {
   randomColor = () => {
     let randomColor = chroma.random();
     console.log(this.state.newColors.length);
-    this.setState({
-      newColors: [...this.state.newColors, randomColor.hex()],
-    });
-    if (this.state.newColors.length >= 20) {
-      this.setState({ isPaletteFull: true });
-    }
+    this.setState(
+      {
+        newColors: [...this.state.newColors, randomColor.hex()],
+      },
+      () => {
+        if (this.state.newColors.length >= 20) {
+          this.setState({ isPaletteFull: true });
+        }
+      }
+    );
   };
   render() {
     const { open, currentColor, newColors, isPaletteFull } = this.state;
@@ -81,7 +89,7 @@ class NewPaletteForm extends Component {
       shouldForwardProp: (prop) => prop !== "open",
     })(({ theme, open }) => ({
       flexGrow: 1,
-      padding: theme.spacing(3),
+      height: "95vh",
       transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -200,6 +208,7 @@ class NewPaletteForm extends Component {
                 variant="contained"
                 color="primary"
                 onClick={this.randomColor}
+                disabled={isPaletteFull}
               >
                 Random Color
               </Button>
@@ -215,11 +224,10 @@ class NewPaletteForm extends Component {
               variant="contained"
               disabled={isPaletteFull}
               sx={{
-                // color:isLightColor ? "black" :"white"
                 mt: 2,
                 width: "90%",
+                // color: isLightColor ? "black" : "white",
                 p: 2,
-                // color: {isLightColor ? "black" : "white"}
                 fontWeight: "bold",
                 fontSize: "23px",
               }}
@@ -232,15 +240,9 @@ class NewPaletteForm extends Component {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          <ul>
-            {newColors?.map((color, index) => {
-              return (
-                <li style={{ backgroundColor: color }} key={index}>
-                  {color}
-                </li>
-              );
-            })}
-          </ul>
+          {newColors?.map((color, index) => {
+            return <DraggablePalette color={color} key={index} />;
+          })}
         </Main>
       </Box>
     );
