@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
 import chroma from "chroma-js";
-import DraggablePalette from "./DraggablePalette";
+import DraggablePalette from "./DraggableColorBox";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 const styles = () => ({
@@ -40,10 +40,7 @@ class NewPaletteForm extends Component {
     this.state = {
       open: true,
       currentColor: "teal",
-      newColors: [
-        { color: "blue", name: "blue" },
-        { color: "green", name: "green" },
-      ],
+      newColors: [{ color: "blue", name: "blue" }],
       isPaletteFull: false,
       newName: "",
     };
@@ -51,14 +48,13 @@ class NewPaletteForm extends Component {
 
   componentDidMount() {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
-      console.log(value, "value");
+      // console.log(value, "value");
       this.state.newColors.every(
         ({ name }) => name.toLowerCase() !== value.toLowerCase()
       );
     });
 
-    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
-      // console.log(value, "value");
+    ValidatorForm.addValidationRule("isColorUnique", () => {
       this.state.newColors.every(
         ({ color }) => color !== this.state.currentColor
       );
@@ -80,13 +76,14 @@ class NewPaletteForm extends Component {
 
   creatColors = () => {
     console.log("submit");
-    const newColor = {
+    const colorDetail = {
       color: this.state.currentColor,
       name: this.state.newName,
     };
+    console.log(colorDetail);
     this.setState(
       {
-        newColors: [...this.state.newColors, newColor],
+        newColors: [...this.state.newColors, colorDetail],
       }
       // () => {
       //   if (this.state.newColors.length >= 20) {
@@ -94,11 +91,23 @@ class NewPaletteForm extends Component {
       //   }
       // }
     );
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
+      // console.log(value, "value");
+      this.state.newColors.every(
+        ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    ValidatorForm.addValidationRule("isColorUnique", () => {
+      this.state.newColors.every(
+        ({ color }) => color !== this.state.currentColor
+      );
+    });
   };
 
-  clearPalette = () => {
-    this.setState({ newColors: [], isPaletteFull: false });
-  };
+  // clearPalette = () => {
+  //   this.setState({ newColors: [], isPaletteFull: false });
+  // };
 
   // randomColor = () => {
   //   let randomColor = chroma.random();
@@ -258,16 +267,21 @@ class NewPaletteForm extends Component {
                 onChangeComplete={this.colorHandleChange}
               />
             </Box>
-            <ValidatorForm onSubmit={this.creatColors} className={classes.form}>
+            <ValidatorForm
+              onSubmit={this.creatColors}
+              className={classes.form}
+              ref="form"
+            >
               <TextValidator
                 label="Color Name"
                 variant="standard"
                 value={newName}
                 onChange={this.handleChange}
-                validators={["required", "isColorNameUnique"]}
+                validators={["required", "isColorNameUnique", "isColorUnique"]}
                 errorMessages={[
-                  "this field is required",
+                  "can not be empty",
                   "name must be unique",
+                  "color already used",
                 ]}
               />
               <Button
