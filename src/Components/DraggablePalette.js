@@ -13,9 +13,11 @@ const useStyles = makeStyles({
 });
 function DraggablePalette(props) {
   const classes = useStyles(props);
+  console.log(props.color);
+  console.log(props.name);
   return (
     <div style={{ backgroundColor: props.color }} className={classes.root}>
-      {props.color}
+      {props.name}
     </div>
   );
 }

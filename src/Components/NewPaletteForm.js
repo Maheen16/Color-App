@@ -14,12 +14,21 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
 import chroma from "chroma-js";
 import DraggablePalette from "./DraggablePalette";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 const styles = () => ({
   chromePicker: {
     "& .chrome-picker": {
       width: "310px !important",
     },
+  },
+  form: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    flexDirection: "column",
+    margin: "8px 0",
   },
 });
 
@@ -31,9 +40,29 @@ class NewPaletteForm extends Component {
     this.state = {
       open: true,
       currentColor: "teal",
-      newColors: ["#2F2F51", "#CB342D", "#DF9C99", "#0C5D5D"],
+      newColors: [
+        { color: "blue", name: "blue" },
+        { color: "green", name: "green" },
+      ],
       isPaletteFull: false,
+      newName: "",
     };
+  }
+
+  componentDidMount() {
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
+      console.log(value, "value");
+      this.state.newColors.every(
+        ({ name }) => name.toLowerCase() !== value.toLowerCase()
+      );
+    });
+
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) => {
+      // console.log(value, "value");
+      this.state.newColors.every(
+        ({ color }) => color !== this.state.currentColor
+      );
+    });
   }
 
   handleDrawerOpen = () => {
@@ -50,15 +79,20 @@ class NewPaletteForm extends Component {
   };
 
   creatColors = () => {
+    console.log("submit");
+    const newColor = {
+      color: this.state.currentColor,
+      name: this.state.newName,
+    };
     this.setState(
       {
-        newColors: [...this.state.newColors, this.state.currentColor],
-      },
-      () => {
-        if (this.state.newColors.length >= 20) {
-          this.setState({ isPaletteFull: true });
-        }
+        newColors: [...this.state.newColors, newColor],
       }
+      // () => {
+      //   if (this.state.newColors.length >= 20) {
+      //     this.setState({ isPaletteFull: true });
+      //   }
+      // }
     );
   };
 
@@ -66,22 +100,27 @@ class NewPaletteForm extends Component {
     this.setState({ newColors: [], isPaletteFull: false });
   };
 
-  randomColor = () => {
-    let randomColor = chroma.random();
-    console.log(this.state.newColors.length);
-    this.setState(
-      {
-        newColors: [...this.state.newColors, randomColor.hex()],
-      },
-      () => {
-        if (this.state.newColors.length >= 20) {
-          this.setState({ isPaletteFull: true });
-        }
-      }
-    );
+  // randomColor = () => {
+  //   let randomColor = chroma.random();
+  //   this.setState(
+  //     {
+  //       newColors: [...this.state.newColors, randomColor.hex()],
+  //     },
+  //     () => {
+  //       if (this.state.newColors.length >= 20) {
+  //         this.setState({ isPaletteFull: true });
+  //       }
+  //     }
+  //   );
+  // };
+
+  handleChange = (evt) => {
+    this.setState({ newName: evt.target.value });
   };
+
   render() {
-    const { open, currentColor, newColors, isPaletteFull } = this.state;
+    const { open, currentColor, newColors, isPaletteFull, newName } =
+      this.state;
     const { classes } = this.props;
     // const isLightColor = chroma(background).luminance() >= 0.7;
 
@@ -219,29 +258,48 @@ class NewPaletteForm extends Component {
                 onChangeComplete={this.colorHandleChange}
               />
             </Box>
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={isPaletteFull}
-              sx={{
-                mt: 2,
-                width: "90%",
-                // color: isLightColor ? "black" : "white",
-                p: 2,
-                fontWeight: "bold",
-                fontSize: "23px",
-              }}
-              style={{ backgroundColor: currentColor }}
-              onClick={this.creatColors}
-            >
-              {isPaletteFull ? "Palette Full !!" : "Add Palette"}
-            </Button>
+            <ValidatorForm onSubmit={this.creatColors} className={classes.form}>
+              <TextValidator
+                label="Color Name"
+                variant="standard"
+                value={newName}
+                onChange={this.handleChange}
+                validators={["required", "isColorNameUnique"]}
+                errorMessages={[
+                  "this field is required",
+                  "name must be unique",
+                ]}
+              />
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                disabled={isPaletteFull}
+                sx={{
+                  mt: 2,
+                  width: "90%",
+                  // color: isLightColor ? "black" : "white",
+                  p: 1,
+                  fontWeight: "bold",
+                  fontSize: "23px",
+                }}
+                style={{ backgroundColor: currentColor }}
+              >
+                {isPaletteFull ? "Palette Full !!" : "Add Palette"}
+              </Button>
+            </ValidatorForm>
           </Box>
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
           {newColors?.map((color, index) => {
-            return <DraggablePalette color={color} key={index} />;
+            return (
+              <DraggablePalette
+                color={color.color}
+                name={color.name}
+                key={index}
+              />
+            );
           })}
         </Main>
       </Box>
