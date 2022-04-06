@@ -4,7 +4,7 @@ import { withStyles } from "@mui/styles";
 import Colorbox from "./Colorbox";
 import Navbar from "./Navbar";
 import { generatePalette } from "../Helpers/ColorHelper";
-import seedPalettes from "../Helpers/seedPalettes";
+// import seedPalettes from "../Helpers/seedPalettes";
 import Footer from "./Footer";
 import styles from "../Styling/PaletteStyles";
 
@@ -34,8 +34,9 @@ class Palette extends Component {
     }
   };
   findPaletteName = () => {
-    return seedPalettes.find((palette) => {
+    return this.props.seedPalettes.find((palette) => {
       // console.log(palette);
+      console.log(this.props.seedPalettes);
       return palette.id === this.props.params.id;
     });
   };

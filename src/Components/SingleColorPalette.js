@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { generatePalette } from "../Helpers/ColorHelper";
 import { Box } from "@mui/material";
-import seedPalettes from "../Helpers/seedPalettes";
+// import seedPalettes from "../Helpers/seedPalettes";
 import { withStyles } from "@mui/styles";
 import Navbar from "./Navbar";
 import ColorBox from "./Colorbox";
@@ -42,7 +42,7 @@ class SingleColorPalette extends Component {
     }
   };
   findPaletteName = () => {
-    return seedPalettes.find((palette) => {
+    return this.props.seedPalettes.find((palette) => {
       // console.log(palette);
       return palette.id === this.props.params.paletteId;
     });

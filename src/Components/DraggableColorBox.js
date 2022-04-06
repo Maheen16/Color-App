@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     marginBottom: "-4.5px",
   },
 });
-function DraggablePalette(props) {
+function DraggableColorBox(props) {
   const classes = useStyles(props);
 
   return (
@@ -21,4 +21,4 @@ function DraggablePalette(props) {
   );
 }
 
-export default DraggablePalette;
+export default DraggableColorBox;
