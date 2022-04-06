@@ -71,8 +71,8 @@ class NewPaletteForm extends Component {
     this.state.newColors.forEach((cur) => {
       if (cur.name === this.state.newName) {
         isNameUnique = true;
-        console.log("name must be unique");
-        this.setState({ errorMessages: "Name must be unique" });
+        // console.log("name must be unique");
+        this.setState({ error: true });
       }
       this.setState({ errorMessages: "" });
     });
@@ -157,6 +157,14 @@ class NewPaletteForm extends Component {
     };
     this.props.savePalette(newPaletteDetail);
     this.props.navigate("/");
+  };
+  deleteColor = (colorName) => {
+    console.log("deleted");
+    this.setState({
+      newColors: this.state.newColors.filter(
+        (color) => color.name !== colorName
+      ),
+    });
   };
   render() {
     const {
@@ -351,9 +359,10 @@ class NewPaletteForm extends Component {
           {newColors?.map((color, index) => {
             return (
               <DraggableColorBox
+                handleClick={() => this.deleteColor(color.name)}
                 color={color.color}
                 name={color.name}
-                key={index}
+                key={color.name}
               />
             );
           })}
