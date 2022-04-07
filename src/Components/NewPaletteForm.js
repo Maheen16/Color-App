@@ -21,7 +21,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChromePicker } from "react-color";
 import chroma from "chroma-js";
-import DraggableColorBox from "./DraggableColorBox";
+import DraggableColorList from "./DraggableColorList";
+import { arrayMove } from "react-sortable-hoc";
 
 const styles = () => ({
   chromePicker: {
@@ -53,6 +54,7 @@ class NewPaletteForm extends Component {
       error: false,
       errorMessages: "",
     };
+    this.deleteColor = this.deleteColor.bind(this);
   }
 
   handleDrawerOpen = () => {
@@ -165,6 +167,11 @@ class NewPaletteForm extends Component {
         (color) => color.name !== colorName
       ),
     });
+  };
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState(({ newColors }) => ({
+      newColors: arrayMove(newColors, oldIndex, newIndex),
+    }));
   };
   render() {
     const {
@@ -356,16 +363,13 @@ class NewPaletteForm extends Component {
         </Drawer>
         <Main open={open}>
           <DrawerHeader />
-          {newColors?.map((color, index) => {
-            return (
-              <DraggableColorBox
-                handleClick={() => this.deleteColor(color.name)}
-                color={color.color}
-                name={color.name}
-                key={color.name}
-              />
-            );
-          })}
+          <DraggableColorList
+            newColors={newColors}
+            deleteColor={this.deleteColor}
+            axis="xy"
+            onSortEnd={this.onSortEnd}
+            distance={20}
+          />
         </Main>
       </Box>
     );
