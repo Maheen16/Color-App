@@ -8,21 +8,8 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-import { withStyles } from "@mui/styles";
+import { Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { ChromePicker } from "react-color";
-import chroma from "chroma-js";
-import DraggableColorList from "./DraggableColorList";
-import { arrayMove } from "react-sortable-hoc";
 import { Link } from "react-router-dom";
 class PaletteFormNav extends Component {
   constructor(props) {

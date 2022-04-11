@@ -2,45 +2,14 @@ import React, { Component } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import { TextField } from "@mui/material";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-import { withStyles } from "@mui/styles";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { ChromePicker } from "react-color";
-import chroma from "chroma-js";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
-import { Link } from "react-router-dom";
 import PaletteFormNav from "./PaletteFormNav";
-
-const styles = () => ({
-  chromePicker: {
-    "& .chrome-picker": {
-      width: "310px !important",
-    },
-  },
-  form: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    flexDirection: "column",
-    margin: "8px 0",
-  },
-});
+import ColorPickerForm from "./ColorPickerForm";
 
 const drawerWidth = 350;
 
@@ -59,20 +28,12 @@ class NewPaletteForm extends Component {
     this.deleteColor = this.deleteColor.bind(this);
   }
 
-  colorHandleChange = (newColor) => {
-    this.setState({ currentColor: newColor.hex });
+  clearPalette = () => {
+    this.setState({ newColors: [], isPaletteFull: false });
   };
-  isExistName = () => {
-    let isNameUnique = false;
-    this.state.newColors.forEach((cur) => {
-      if (cur.name === this.state.newName) {
-        isNameUnique = true;
-        // console.log("name must be unique");
-        this.setState({ error: true });
-      }
-      this.setState({ errorMessages: "" });
-    });
-    return isNameUnique;
+
+  handleChange = (evt) => {
+    this.setState({ newName: evt.target.value });
   };
   isExistColor = () => {
     let result = false;
@@ -85,28 +46,38 @@ class NewPaletteForm extends Component {
     });
     return result;
   };
+
+  isExistName = () => {
+    let isNameUnique = false;
+    this.state.newColors.forEach((cur) => {
+      if (cur.name === this.state.newName) {
+        isNameUnique = true;
+        // console.log("name must be unique");
+        this.setState({ error: true });
+      }
+      this.setState({ errorMessages: "" });
+    });
+    return isNameUnique;
+  };
   creatColors = () => {
+    let isNameUnique = this.isExistName();
+    let isColorUnique = this.isExistColor();
     if (this.state.newName === "") {
-      console.log("required");
       this.setState({ errorMessages: "name is required", error: true });
+      console.log("required");
       return;
     }
     this.setState({ errorMessages: "" });
 
-    let isNameUnique = this.isExistName();
-    let isColorUnique = this.isExistColor();
     if (isNameUnique) {
       this.setState({ errorMessages: "name must be unique" });
-      // console.log("name already exist");
     } else if (isColorUnique) {
       this.setState({ errorMessages: "color must be unique" });
     } else {
-      // console.log("unique name");
       const colorDetail = {
         color: this.state.currentColor,
         name: this.state.newName,
       };
-      // console.log(colorDetail);
       this.setState(
         {
           newColors: [...this.state.newColors, colorDetail],
@@ -120,10 +91,6 @@ class NewPaletteForm extends Component {
         }
       );
     }
-  };
-
-  clearPalette = () => {
-    this.setState({ newColors: [], isPaletteFull: false });
   };
 
   randomColor = () => {
@@ -150,10 +117,6 @@ class NewPaletteForm extends Component {
     );
   };
 
-  handleChange = (evt) => {
-    this.setState({ newName: evt.target.value });
-  };
-
   savePalette = () => {
     let newName = "my First palette";
     const newPaletteDetail = {
@@ -178,17 +141,23 @@ class NewPaletteForm extends Component {
       newColors: arrayMove(newColors, oldIndex, newIndex),
     }));
   };
+
+  colorHandleChange = (newColor) => {
+    this.setState({ currentColor: newColor.hex });
+  };
+
   render() {
     const {
       open,
-      currentColor,
       newColors,
       isPaletteFull,
       newName,
       error,
       errorMessages,
+      currentColor,
     } = this.state;
-    const { classes } = this.props;
+    const { palette } = this.props;
+
     const Main = styled("main", {
       shouldForwardProp: (prop) => prop !== "open",
     })(({ theme, open }) => ({
@@ -212,7 +181,6 @@ class NewPaletteForm extends Component {
       display: "flex",
       alignItems: "center",
       padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: "flex-end",
     }));
@@ -224,6 +192,7 @@ class NewPaletteForm extends Component {
           drawerWidth={drawerWidth}
           open={open}
         />
+
         <Drawer
           sx={{
             width: drawerWidth,
@@ -284,37 +253,17 @@ class NewPaletteForm extends Component {
                 Random Color
               </Button>
             </Box>
-            <Box className={classes.chromePicker}>
-              <ChromePicker
-                color={currentColor}
-                onChangeComplete={this.colorHandleChange}
-              />
-            </Box>
-            <TextField
+            <ColorPickerForm
+              palette={palette}
+              isPaletteFull={isPaletteFull}
+              createColors={this.creatColors}
+              handleChange={this.handleChange}
+              newName={newName}
+              errorMessages={errorMessages}
               error={error}
-              label="Enter Color Name"
-              variant="standard"
-              onChange={this.handleChange}
-              value={newName}
-              helperText={errorMessages}
+              currentColor={currentColor}
+              colorHandleChange={this.colorHandleChange}
             />
-            <Button
-              color="primary"
-              variant="contained"
-              type="submit"
-              disabled={isPaletteFull}
-              onClick={this.creatColors}
-              sx={{
-                mt: 2,
-                width: "90%",
-                p: 1,
-                fontWeight: "bold",
-                fontSize: "23px",
-              }}
-              style={{ backgroundColor: isPaletteFull ? "grey" : currentColor }}
-            >
-              {isPaletteFull ? "Palette Full !!" : "Add Palette"}
-            </Button>
           </Box>
         </Drawer>
         <Main open={open}>
@@ -331,4 +280,4 @@ class NewPaletteForm extends Component {
     );
   }
 }
-export default withStyles(styles)(NewPaletteForm);
+export default NewPaletteForm;
