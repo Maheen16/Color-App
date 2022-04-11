@@ -16,16 +16,9 @@ class PaletteFormNav extends Component {
     super(props);
     this.state = {};
   }
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
 
   render() {
-    const { savePalette, drawerWidth, open } = this.props;
+    const { savePalette, drawerWidth, open, handleDrawerOpen } = this.props;
     const {} = this.state;
     const AppBar = styled(MuiAppBar, {
       shouldForwardProp: (prop) => prop !== "open",
@@ -57,7 +50,7 @@ class PaletteFormNav extends Component {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
+                onClick={handleDrawerOpen}
                 edge="start"
                 sx={{ mr: 2, ...(open && { display: "none" }) }}
               >

@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import { Button } from "@mui/material";
+import { Box, Drawer, Typography, IconButton, Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
@@ -12,7 +8,6 @@ import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
 
 const drawerWidth = 350;
-
 class NewPaletteForm extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +22,13 @@ class NewPaletteForm extends Component {
     };
     this.deleteColor = this.deleteColor.bind(this);
   }
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
 
   clearPalette = () => {
     this.setState({ newColors: [], isPaletteFull: false });
@@ -190,6 +192,7 @@ class NewPaletteForm extends Component {
         <PaletteFormNav
           savePalette={this.savePalette}
           drawerWidth={drawerWidth}
+          handleDrawerOpen={this.handleDrawerOpen}
           open={open}
         />
 
