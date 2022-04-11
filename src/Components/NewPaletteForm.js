@@ -23,6 +23,7 @@ import { ChromePicker } from "react-color";
 import chroma from "chroma-js";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
+import { Link } from "react-router-dom";
 
 const styles = () => ({
   chromePicker: {
@@ -48,7 +49,7 @@ class NewPaletteForm extends Component {
     this.state = {
       open: true,
       currentColor: "teal",
-      newColors: [{ color: "blue", name: "blue" }],
+      newColors: this.props.palette[0].colors,
       isPaletteFull: false,
       newName: "",
       error: false,
@@ -133,10 +134,20 @@ class NewPaletteForm extends Component {
   };
 
   randomColor = () => {
-    let randomColor = chroma.random();
+    const allColors = this.props.palette.map((p) => p.colors).flat();
+    // console.log(allColors);
+    let randomColor;
+    let isDuplicateColor = true;
+    while (isDuplicateColor) {
+      let rand = Math.floor(Math.random() * allColors.length);
+      randomColor = allColors[rand];
+      isDuplicateColor = this.state.newColors.some(
+        (color) => color.name === randomColor.name
+      );
+    }
     this.setState(
       {
-        newColors: [...this.state.newColors, randomColor.hex()],
+        newColors: [...this.state.newColors, randomColor],
       },
       () => {
         if (this.state.newColors.length >= 20) {
@@ -166,6 +177,7 @@ class NewPaletteForm extends Component {
       newColors: this.state.newColors.filter(
         (color) => color.name !== colorName
       ),
+      isPaletteFull: false,
     });
   };
   onSortEnd = ({ oldIndex, newIndex }) => {
@@ -254,9 +266,11 @@ class NewPaletteForm extends Component {
               </Typography>
             </Box>
             <Box>
-              <Button variant="contained" color="secondary">
-                GO BACK
-              </Button>
+              <Link to={"/"}>
+                <Button variant="contained" color="secondary">
+                  GO BACK
+                </Button>
+              </Link>
               <Button
                 variant="contained"
                 color="success"
@@ -350,12 +364,11 @@ class NewPaletteForm extends Component {
               sx={{
                 mt: 2,
                 width: "90%",
-                // color: isLightColor ? "black" : "white",
                 p: 1,
                 fontWeight: "bold",
                 fontSize: "23px",
               }}
-              style={{ backgroundColor: currentColor }}
+              style={{ backgroundColor: isPaletteFull ? "grey" : currentColor }}
             >
               {isPaletteFull ? "Palette Full !!" : "Add Palette"}
             </Button>

@@ -57,7 +57,9 @@ export default function App() {
       <Route path="/" element={<PaletteList allPalettes={palette} />} />
       <Route
         path="/palette/newpalette"
-        element={<PaletteFormWrapper savePalette={savePalette} />}
+        element={
+          <PaletteFormWrapper savePalette={savePalette} palette={palette} />
+        }
       />
 
       <Route
