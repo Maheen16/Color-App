@@ -24,6 +24,7 @@ import chroma from "chroma-js";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
 import { Link } from "react-router-dom";
+import PaletteFormNav from "./PaletteFormNav";
 
 const styles = () => ({
   chromePicker: {
@@ -57,14 +58,6 @@ class NewPaletteForm extends Component {
     };
     this.deleteColor = this.deleteColor.bind(this);
   }
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
 
   colorHandleChange = (newColor) => {
     this.setState({ currentColor: newColor.hex });
@@ -224,63 +217,13 @@ class NewPaletteForm extends Component {
       justifyContent: "flex-end",
     }));
 
-    const AppBar = styled(MuiAppBar, {
-      shouldForwardProp: (prop) => prop !== "open",
-    })(({ theme, open }) => ({
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      ...(open && {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(["margin", "width"], {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-      }),
-    }));
-
     return (
       <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          color="info"
+        <PaletteFormNav
+          savePalette={this.savePalette}
+          drawerWidth={drawerWidth}
           open={open}
-          sx={{ width: "calc(100% -drawerWidth)" }}
-        >
-          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
-                edge="start"
-                sx={{ mr: 2, ...(open && { display: "none" }) }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Create a Palette
-              </Typography>
-            </Box>
-            <Box>
-              <Link to={"/"}>
-                <Button variant="contained" color="secondary">
-                  GO BACK
-                </Button>
-              </Link>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={this.savePalette}
-              >
-                SAVE PALETTE
-              </Button>
-            </Box>
-          </Toolbar>
-        </AppBar>
+        />
         <Drawer
           sx={{
             width: drawerWidth,
