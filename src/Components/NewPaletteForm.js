@@ -16,11 +16,11 @@ class NewPaletteForm extends Component {
       currentColor: "teal",
       newColors: this.props.palette[0].colors,
       isPaletteFull: false,
-      newName: "",
+      newColorName: "",
       error: false,
       errorMessages: "",
+      paletteNameValidate: "",
     };
-    this.deleteColor = this.deleteColor.bind(this);
   }
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -35,7 +35,7 @@ class NewPaletteForm extends Component {
   };
 
   handleChange = (evt) => {
-    this.setState({ newName: evt.target.value });
+    this.setState({ newColorName: evt.target.value });
   };
   isExistColor = () => {
     let result = false;
@@ -52,7 +52,7 @@ class NewPaletteForm extends Component {
   isExistName = () => {
     let isNameUnique = false;
     this.state.newColors.forEach((cur) => {
-      if (cur.name === this.state.newName) {
+      if (cur.name === this.state.newColorName) {
         isNameUnique = true;
         // console.log("name must be unique");
         this.setState({ error: true });
@@ -64,7 +64,7 @@ class NewPaletteForm extends Component {
   creatColors = () => {
     let isNameUnique = this.isExistName();
     let isColorUnique = this.isExistColor();
-    if (this.state.newName === "") {
+    if (this.state.newColorName === "") {
       this.setState({ errorMessages: "name is required", error: true });
       console.log("required");
       return;
@@ -78,13 +78,13 @@ class NewPaletteForm extends Component {
     } else {
       const colorDetail = {
         color: this.state.currentColor,
-        name: this.state.newName,
+        name: this.state.newColorName,
       };
       this.setState(
         {
           newColors: [...this.state.newColors, colorDetail],
           error: false,
-          newName: "",
+          newColorName: "",
         },
         () => {
           if (this.state.newColors.length >= 20) {
@@ -120,7 +120,8 @@ class NewPaletteForm extends Component {
   };
 
   savePalette = () => {
-    let newName = "my First palette";
+    // let newName = "my First palette";
+    let newName = this.state.paletteNameValidate;
     const newPaletteDetail = {
       paletteName: newName,
       id: newName.toLowerCase().replace(/ /g, "-"),
@@ -147,16 +148,16 @@ class NewPaletteForm extends Component {
   colorHandleChange = (newColor) => {
     this.setState({ currentColor: newColor.hex });
   };
-
   render() {
     const {
       open,
       newColors,
       isPaletteFull,
-      newName,
+      newColorName,
       error,
       errorMessages,
       currentColor,
+      paletteNameValidate,
     } = this.state;
     const { palette } = this.props;
 
@@ -194,6 +195,9 @@ class NewPaletteForm extends Component {
           drawerWidth={drawerWidth}
           handleDrawerOpen={this.handleDrawerOpen}
           open={open}
+          palette={palette}
+          paletteNameValidate={paletteNameValidate}
+          handleChange={this.handlePaletteName}
         />
 
         <Drawer
@@ -261,7 +265,7 @@ class NewPaletteForm extends Component {
               isPaletteFull={isPaletteFull}
               createColors={this.creatColors}
               handleChange={this.handleChange}
-              newName={newName}
+              newColorName={newColorName}
               errorMessages={errorMessages}
               error={error}
               currentColor={currentColor}

@@ -36,7 +36,7 @@ class ColorPickerForm extends Component {
       isPaletteFull,
       createColors,
       handleChange,
-      newName,
+      newColorName,
       error,
       errorMessages,
       currentColor,
@@ -55,7 +55,8 @@ class ColorPickerForm extends Component {
           label="Enter Color Name"
           variant="standard"
           onChange={handleChange}
-          value={newName}
+          value={newColorName}
+          name={newColorName}
           helperText={errorMessages}
         />
         <Button

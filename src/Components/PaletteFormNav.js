@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import { TextField } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,15 +9,31 @@ import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
+import PaletteDialogBox from "../PaletteDiagloBox";
 class PaletteFormNav extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showingForm: false,
+    };
   }
-
+  showForm = () => {
+    console.log("show form");
+    this.setState({ showingForm: true });
+  };
+  hideForm = () => {
+    console.log("hide form");
+    this.setState({ showingForm: false });
+  };
   render() {
-    const { savePalette, drawerWidth, open, handleDrawerOpen } = this.props;
-    const {} = this.state;
+    const {
+      palette,
+      drawerWidth,
+      open,
+      handleDrawerOpen,
+      paletteNameValidate,
+      handleChange,
+    } = this.props;
     const AppBar = styled(MuiAppBar, {
       shouldForwardProp: (prop) => prop !== "open",
     })(({ theme, open }) => ({
@@ -60,15 +74,32 @@ class PaletteFormNav extends Component {
                 Create a Palette
               </Typography>
             </Box>
-            <Box>
-              <Link to={"/"}>
+            <Box sx={{ display: "flex" }}>
+              <Link to={"/"} style={{ textDecoration: "none" }}>
                 <Button variant="contained" color="secondary">
                   GO BACK
                 </Button>
               </Link>
-              <Button variant="contained" color="success" onClick={savePalette}>
+              {/* <Button variant="contained" color="success" onClick={savePalette}>
                 SAVE PALETTE
+              </Button> */}
+              <Button
+                variant="contained"
+                onClick={this.showForm}
+                color="primary"
+                sx={{ ml: 2 }}
+              >
+                SAVE
               </Button>
+              {this.state.showingForm && (
+                <PaletteDialogBox
+                  palette={palette}
+                  paletteNameValidate={paletteNameValidate}
+                  handleChange={handleChange}
+                  hideForm={this.hideForm}
+                  showingForm={this.state.showingForm}
+                />
+              )}
             </Box>
           </Toolbar>
         </AppBar>
