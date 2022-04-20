@@ -4,12 +4,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
+import { withStyles } from "@mui/styles";
 import ColorPickerForm from "./ColorPickerForm";
 import {
   Main,
   DrawerHeader,
   drawerWidth,
 } from "../Styling/NewPaletteFormStyles";
+import styles from "../Styling/NewPaletteFormStyles";
 
 class NewPaletteForm extends Component {
   constructor(props) {
@@ -22,7 +24,6 @@ class NewPaletteForm extends Component {
       newColorName: "",
       error: false,
       errorMessages: "",
-      paletteNameValidate: "",
     };
   }
   handleDrawerOpen = () => {
@@ -151,12 +152,6 @@ class NewPaletteForm extends Component {
     this.setState({ currentColor: newColor.hex });
   };
 
-  handlePaletteNameChange = (evt) => {
-    this.setState({
-      paletteNameValidate: evt.target.value,
-    });
-  };
-
   render() {
     const {
       open,
@@ -166,9 +161,8 @@ class NewPaletteForm extends Component {
       error,
       errorMessages,
       currentColor,
-      paletteNameValidate,
     } = this.state;
-    const { palette } = this.props;
+    const { palette, classes } = this.props;
 
     return (
       <Box sx={{ display: "flex" }}>
@@ -178,19 +172,11 @@ class NewPaletteForm extends Component {
           handleDrawerOpen={this.handleDrawerOpen}
           open={open}
           palette={palette}
-          paletteNameValidate={paletteNameValidate}
           handlePaletteNameChange={this.handlePaletteNameChange}
         />
 
         <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
+          className={classes.drawer}
           variant="persistent"
           anchor="left"
           open={open}
@@ -200,31 +186,14 @@ class NewPaletteForm extends Component {
               <ChevronLeftIcon />
             </IconButton>
           </DrawerHeader>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <Box sx={{}} className={classes.main}>
             <Typography
               variant="h5"
               sx={{ letterSpacing: "5px", wordSpacing: "5px" }}
             >
               Design Your Palette
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
-                justifyContent: "center",
-                mb: 2,
-                mt: 2,
-              }}
-            >
+            <Box className={classes.buttons}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -269,4 +238,4 @@ class NewPaletteForm extends Component {
     );
   }
 }
-export default NewPaletteForm;
+export default withStyles(styles)(NewPaletteForm);

@@ -82,9 +82,7 @@ class PaletteFormNav extends Component {
                   GO BACK
                 </Button>
               </Link>
-              {/* <Button variant="contained" color="success" onClick={savePalette}>
-                SAVE PALETTE
-              </Button> */}
+
               <Button
                 variant="contained"
                 onClick={this.showForm}

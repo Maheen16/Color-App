@@ -5,7 +5,7 @@ import PaletteList from "./Components/PaletteList";
 import SingleColorPalette from "./Components/SingleColorPalette";
 import NewPaletteForm from "./Components/NewPaletteForm";
 import { useNavigate } from "react-router-dom";
-import { Component, useState } from "react";
+import { useEffect, useState } from "react";
 
 const WrappedComponent = (props) => {
   const params = useParams();
@@ -22,13 +22,19 @@ const PaletteFormWrapper = (props) => {
 };
 
 export default function App() {
-  const [palette, setPalettes] = useState(seedPalettes);
+  const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+  const [palette, setPalettes] = useState(savedPalettes || seedPalettes);
 
   const savePalette = (newPalette) => {
-    // console.log(palette);
-    // console.log(newPalette);
     setPalettes([...palette, newPalette]);
   };
+  const syncLocalStorage = () => {
+    //save palettes to local storage
+    window.localStorage.setItem("palettes", JSON.stringify(palette));
+  };
+  useEffect(() => {
+    syncLocalStorage();
+  }, [palette]);
   return (
     <Routes>
       <Route path="/" element={<PaletteList allPalettes={palette} />} />

@@ -27,3 +27,30 @@ export const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
+
+const styles = () => ({
+  main: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    "& .MuiDrawer-paper": {
+      width: drawerWidth,
+      boxSizing: "border-box",
+    },
+  },
+  buttons: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+    mb: 2,
+    mt: 2,
+  },
+});
+export default styles;
