@@ -18,13 +18,14 @@ class PaletteFormNav extends Component {
     };
   }
   showForm = () => {
-    console.log("show form");
     this.setState({ showingForm: true });
   };
   hideForm = () => {
-    console.log("hide form");
     this.setState({ showingForm: false });
   };
+  componentDidMount() {
+    console.log("paletteFormNav");
+  }
   render() {
     const {
       palette,
@@ -32,7 +33,8 @@ class PaletteFormNav extends Component {
       open,
       handleDrawerOpen,
       paletteNameValidate,
-      handleChange,
+      handlePaletteNameChange,
+      savePalette,
     } = this.props;
     const AppBar = styled(MuiAppBar, {
       shouldForwardProp: (prop) => prop !== "open",
@@ -95,9 +97,9 @@ class PaletteFormNav extends Component {
                 <PaletteDialogBox
                   palette={palette}
                   paletteNameValidate={paletteNameValidate}
-                  handleChange={handleChange}
+                  handleChange={handlePaletteNameChange}
                   hideForm={this.hideForm}
-                  showingForm={this.state.showingForm}
+                  savePalette={savePalette}
                 />
               )}
             </Box>

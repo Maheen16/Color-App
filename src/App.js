@@ -20,36 +20,13 @@ const PaletteFormWrapper = (props) => {
   const navigate = useNavigate();
   return <NewPaletteForm navigate={navigate} {...props} />;
 };
-// class App extends Component() {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       palettes: seedPalettes,
-//     };
-//   }
-//   render() {
-//     return (
-//       <Routes>
-//         <Route
-//           path="/"
-//           element={<PaletteList allPalettes={this.state.palettes} />}
-//         />
-//         <Route path="/palette/newpalette" element={<PaletteFormWrapper />} />
-
-//         <Route path="/palette/:id" element={<WrappedComponent />} />
-//         <Route path="/palette/:paletteId/:colorId" element={<Wrapper />} />
-//       </Routes>
-//     );
-//   }
-// }
-// export default App;
 
 export default function App() {
   const [palette, setPalettes] = useState(seedPalettes);
 
   const savePalette = (newPalette) => {
-    console.log(palette);
-    console.log(newPalette);
+    // console.log(palette);
+    // console.log(newPalette);
     setPalettes([...palette, newPalette]);
   };
   return (

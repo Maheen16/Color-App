@@ -15,9 +15,10 @@ export default class PaletteDialogBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      stage: "form",
       error: false,
       newPaletteName: "",
+      //   newPaletteName: this.props.paletteNameValidate,
     };
   }
   submit = () => {
@@ -31,10 +32,10 @@ export default class PaletteDialogBox extends Component {
           this.state.newPaletteName.toLowerCase()
         ) {
           control = true;
-          console.log("same name");
+          //   console.log("same name");
         }
       });
-      this.setState({ error: control });
+      this.setState({ error: control, stage: "emoji" });
     }
   };
   handleChange(evt) {
@@ -42,16 +43,31 @@ export default class PaletteDialogBox extends Component {
       newPaletteName: evt.target.value,
     });
   }
+  addEmoji = (emoji) => {
+    const newPalette = {
+      paletteName: this.state.newPaletteName,
+      emoji: emoji.native,
+    };
+    this.props.savePalette(newPalette);
+    console.log(newPalette, "newPalette");
+    this.setState({ stage: "" });
+    // console.log(emoji.name, emoji.native);
+  };
+  componentDidMount() {
+    console.log("dialogbox");
+  }
   render() {
-    const { error, newPaletteName, open } = this.state;
-    const { hideForm, showingForm } = this.props;
+    const { error, stage, newPaletteName } = this.state;
+    const { hideForm } = this.props;
     return (
       <Box>
-        <Dialog open={showingForm} onClose={hideForm}>
+        <Dialog open={stage === "emoji"}>
+          <Picker onSelect={this.addEmoji} title="Pick a Palette Emoji" />
+        </Dialog>
+        <Dialog open={stage === "form"} onClose={hideForm}>
           <DialogTitle sx={{ fontWeight: "bold", fontSize: "18px" }}>
             Choose a Palette Name
           </DialogTitle>
-          <Picker set="apple" />
           <DialogContent>
             <DialogContentText>
               Please enter a name for your new beautiful palette. Make sure it's

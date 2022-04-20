@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import { styled } from "@mui/material/styles";
 import { Box, Drawer, Typography, IconButton, Button } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import DraggableColorList from "./DraggableColorList";
 import { arrayMove } from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
+import {
+  Main,
+  DrawerHeader,
+  drawerWidth,
+} from "../Styling/NewPaletteFormStyles";
 
-const drawerWidth = 350;
 class NewPaletteForm extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +69,7 @@ class NewPaletteForm extends Component {
     let isColorUnique = this.isExistColor();
     if (this.state.newColorName === "") {
       this.setState({ errorMessages: "name is required", error: true });
-      console.log("required");
+      // console.log("required");
       return;
     }
     this.setState({ errorMessages: "" });
@@ -119,19 +122,18 @@ class NewPaletteForm extends Component {
     );
   };
 
-  savePalette = () => {
-    // let newName = "my First palette";
-    let newName = this.state.paletteNameValidate;
+  savePalette = (newPalette) => {
+    let newName = newPalette.paletteName;
     const newPaletteDetail = {
       paletteName: newName,
       id: newName.toLowerCase().replace(/ /g, "-"),
       colors: this.state.newColors,
+      emoji: newPalette.emoji,
     };
     this.props.savePalette(newPaletteDetail);
     this.props.navigate("/");
   };
   deleteColor = (colorName) => {
-    console.log("deleted");
     this.setState({
       newColors: this.state.newColors.filter(
         (color) => color.name !== colorName
@@ -148,6 +150,13 @@ class NewPaletteForm extends Component {
   colorHandleChange = (newColor) => {
     this.setState({ currentColor: newColor.hex });
   };
+
+  handlePaletteNameChange = (evt) => {
+    this.setState({
+      paletteNameValidate: evt.target.value,
+    });
+  };
+
   render() {
     const {
       open,
@@ -161,33 +170,6 @@ class NewPaletteForm extends Component {
     } = this.state;
     const { palette } = this.props;
 
-    const Main = styled("main", {
-      shouldForwardProp: (prop) => prop !== "open",
-    })(({ theme, open }) => ({
-      flexGrow: 1,
-      height: "95vh",
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: `-${drawerWidth}px`,
-      ...(open && {
-        transition: theme.transitions.create("margin", {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      }),
-    }));
-
-    const DrawerHeader = styled("div")(({ theme }) => ({
-      display: "flex",
-      alignItems: "center",
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
-    }));
-
     return (
       <Box sx={{ display: "flex" }}>
         <PaletteFormNav
@@ -197,7 +179,7 @@ class NewPaletteForm extends Component {
           open={open}
           palette={palette}
           paletteNameValidate={paletteNameValidate}
-          handleChange={this.handlePaletteName}
+          handlePaletteNameChange={this.handlePaletteNameChange}
         />
 
         <Drawer
