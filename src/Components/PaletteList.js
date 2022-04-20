@@ -17,7 +17,9 @@ class PaletteList extends Component {
           </nav>
           <div className={classes.palettes}>
             {allPalettes.map((palette) => {
-              return <MiniPalette {...palette} key={palette.id} />;
+              return (
+                <MiniPalette {...palette} key={palette.id} id={palette.id} />
+              );
             })}
           </div>
         </div>
