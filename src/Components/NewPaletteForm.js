@@ -186,14 +186,14 @@ class NewPaletteForm extends Component {
               <ChevronLeftIcon />
             </IconButton>
           </DrawerHeader>
-          <Box sx={{}} className={classes.main}>
+          <Box className={classes.main}>
             <Typography
               variant="h5"
               sx={{ letterSpacing: "5px", wordSpacing: "5px" }}
             >
               Design Your Palette
             </Typography>
-            <Box className={classes.buttons}>
+            <Box className={classes.buttons} sx={{ mb: 2, mt: 2 }}>
               <Button
                 variant="contained"
                 color="secondary"

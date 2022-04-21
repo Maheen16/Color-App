@@ -1,6 +1,6 @@
 const styles = () => ({
   root: {
-    backgroundColor: "purple",
+    backgroundColor: "#394bad",
     height: "100%",
     display: "flex",
     alignItems: "flex-start",
@@ -22,8 +22,7 @@ const styles = () => ({
     alignItems: "center",
     margin: "1.2rem 0",
     "& a": {
-      color: "white",
-      fontSize: "1.2rem",
+      color: "black",
     },
   },
   palettes: {

@@ -28,6 +28,17 @@ export default function App() {
   const savePalette = (newPalette) => {
     setPalettes([...palette, newPalette]);
   };
+  const deletePalette = (id) => {
+    setPalettes((prevValue) =>
+      prevValue.filter((palette) => palette.id !== id)
+    );
+
+    console.log(palette);
+  };
+  const reset = () => {
+    setPalettes(seedPalettes);
+    window.localStorage.clear();
+  };
   const syncLocalStorage = () => {
     //save palettes to local storage
     window.localStorage.setItem("palettes", JSON.stringify(palette));
@@ -37,7 +48,16 @@ export default function App() {
   }, [palette]);
   return (
     <Routes>
-      <Route path="/" element={<PaletteList allPalettes={palette} />} />
+      <Route
+        path="/"
+        element={
+          <PaletteList
+            allPalettes={palette}
+            deletePalette={deletePalette}
+            reset={reset}
+          />
+        }
+      />
       <Route
         path="/palette/newpalette"
         element={

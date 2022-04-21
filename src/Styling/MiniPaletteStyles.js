@@ -7,6 +7,7 @@ const useStyles = makeStyles({
     borderRadius: "5px",
     overflow: "hidden",
     width: "100%",
+    height: "100%",
     cursor: "pointer",
     "&:hover svg": {
       opacity: 1,

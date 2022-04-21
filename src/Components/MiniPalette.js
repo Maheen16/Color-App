@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import useStyles from "../Styling/MiniPaletteStyles";
 import { Delete } from "@mui/icons-material";
 
-export default function MiniPalette({ id, ...palette }) {
+export default function MiniPalette({ id, openDialog, ...palette }) {
   const classes = useStyles();
   const navigate = useNavigate();
   // console.log(palette);
+
   const miniColorBoxes = palette.colors.map((color) => {
     return (
       <div
@@ -21,7 +22,7 @@ export default function MiniPalette({ id, ...palette }) {
   };
   const deletePalette = (e) => {
     e.stopPropagation();
-    console.log(id);
+    openDialog(id);
   };
   return (
     <div className={classes.root} onClick={() => handleClick(palette.id)}>

@@ -49,8 +49,6 @@ const styles = () => ({
     alignItems: "center",
     width: "100%",
     justifyContent: "center",
-    mb: 2,
-    mt: 2,
   },
 });
 export default styles;

@@ -62,7 +62,7 @@ class PaletteFormNav extends Component {
           sx={{ width: "calc(100% -drawerWidth)" }}
         >
           <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -72,7 +72,12 @@ class PaletteFormNav extends Component {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap component="div">
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
                 Create a Palette
               </Typography>
             </Box>
