@@ -1,6 +1,7 @@
 const styles = () => ({
   root: {
     backgroundColor: "#394bad",
+    // height: "100vh",
     height: "100%",
     display: "flex",
     alignItems: "flex-start",

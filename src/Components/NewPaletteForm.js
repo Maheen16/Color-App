@@ -6,6 +6,7 @@ import { arrayMove } from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
 import { withStyles } from "@mui/styles";
 import ColorPickerForm from "./ColorPickerForm";
+import seedPalettes from "../Helpers/seedPalettes";
 import {
   Main,
   DrawerHeader,
@@ -19,7 +20,7 @@ class NewPaletteForm extends Component {
     this.state = {
       open: true,
       currentColor: "teal",
-      newColors: this.props.palette[0].colors,
+      newColors: seedPalettes[0].colors,
       isPaletteFull: false,
       newColorName: "",
       error: false,

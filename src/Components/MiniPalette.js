@@ -9,6 +9,7 @@ export default function MiniPalette({ id, openDialog, ...palette }) {
   // console.log(palette);
 
   const miniColorBoxes = palette.colors.map((color) => {
+    // returning small miniboxes inside of each individual palette
     return (
       <div
         className={classes.miniColorBox}
@@ -17,7 +18,8 @@ export default function MiniPalette({ id, openDialog, ...palette }) {
       ></div>
     );
   });
-  const handleClick = (id) => {
+  const handleClick = () => {
+    // taking to individual palette
     navigate(`palette/${id}`);
   };
   const deletePalette = (e) => {
@@ -25,7 +27,7 @@ export default function MiniPalette({ id, openDialog, ...palette }) {
     openDialog(id);
   };
   return (
-    <div className={classes.root} onClick={() => handleClick(palette.id)}>
+    <div className={classes.root} onClick={handleClick}>
       <Delete
         className={classes.deleteIcon}
         style={{ transition: "all 0.3s ease-in-out" }}

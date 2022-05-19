@@ -18,24 +18,32 @@ export default class PaletteDialogBox extends Component {
       stage: "form",
       error: false,
       newPaletteName: "",
-      //   newPaletteName: this.props.paletteNameValidate,
+      errorMessages: "",
     };
   }
   submit = () => {
     let control = false;
     if (this.state.newPaletteName === "") {
-      this.setState({ error: true });
+      control = true;
+      this.setState({ errorMessages: "can not be empty" });
     } else {
       this.props.palette.forEach((element) => {
+        console.log(element.paletteName, "loop element name");
+        console.log(this.state.newPaletteName, "name in state");
         if (
           element.paletteName.toLowerCase() ===
           this.state.newPaletteName.toLowerCase()
         ) {
           control = true;
-          //   console.log("same name");
+          this.setState({ errorMessages: "name already exists." });
+          console.log("same name");
         }
       });
-      this.setState({ error: control, stage: "emoji" });
+    }
+    // console.log(control);
+    this.setState({ error: control });
+    if (!control) {
+      this.setState({ stage: "emoji" });
     }
   };
   handleChange(evt) {
@@ -49,15 +57,14 @@ export default class PaletteDialogBox extends Component {
       emoji: emoji.native,
     };
     this.props.savePalette(newPalette);
-    console.log(newPalette, "newPalette");
+    // console.log(newPalette, "newPalette");
     this.setState({ stage: "" });
-    // console.log(emoji.name, emoji.native);
   };
-  componentDidMount() {
-    console.log("dialogbox");
-  }
+  // componentDidMount() {
+  //   console.log("dialogbox");
+  // }
   render() {
-    const { error, stage, newPaletteName } = this.state;
+    const { error, stage, newPaletteName, errorMessages } = this.state;
     const { hideForm } = this.props;
     return (
       <Box>
@@ -84,13 +91,7 @@ export default class PaletteDialogBox extends Component {
               fullWidth
               variant="standard"
               error={error}
-              helperText={
-                error
-                  ? newPaletteName
-                    ? "already used name"
-                    : "can not be empty"
-                  : ""
-              }
+              helperText={errorMessages}
             />
           </DialogContent>
           <DialogActions>

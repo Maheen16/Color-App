@@ -36,6 +36,7 @@ class Palette extends Component {
   findPaletteName = () => {
     return this.props.seedPalettes.find((palette) => {
       // console.log(palette);
+      // console.log(this.props.params.id);
       // console.log(this.props.seedPalettes);
       return palette.id === this.props.params.id;
     });

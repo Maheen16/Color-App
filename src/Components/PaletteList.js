@@ -20,12 +20,13 @@ class PaletteList extends Component {
     this.setState({ isDialogOpen: false });
   };
   deletePalette = () => {
+    // deleting palette
     this.props.deletePalette(this.state.deletingId);
     this.closeDialog();
-    console.log("deled");
+    console.log("deleted");
   };
   render() {
-    const { allPalettes, classes, deletePalette, reset } = this.props;
+    const { allPalettes, classes, deletePalette } = this.props;
     const { isDialogOpen, deletingId } = this.state;
     return (
       <div className={classes.root}>
@@ -33,9 +34,6 @@ class PaletteList extends Component {
           <nav className={classes.nav}>
             <Typography variant="h4">Color App</Typography>
             <div>
-              <Button variant="contained" color="secondary" onClick={reset}>
-                Reset
-              </Button>
               <Button
                 variant="contained"
                 color="inherit"

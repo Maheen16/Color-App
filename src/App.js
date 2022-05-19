@@ -32,13 +32,11 @@ export default function App() {
     setPalettes((prevValue) =>
       prevValue.filter((palette) => palette.id !== id)
     );
-
-    console.log(palette);
   };
-  const reset = () => {
-    setPalettes(seedPalettes);
-    window.localStorage.clear();
-  };
+  // const reset = () => {
+  //   setPalettes(seedPalettes);
+  //   window.localStorage.clear();
+  // };
   const syncLocalStorage = () => {
     //save palettes to local storage
     window.localStorage.setItem("palettes", JSON.stringify(palette));
@@ -51,11 +49,7 @@ export default function App() {
       <Route
         path="/"
         element={
-          <PaletteList
-            allPalettes={palette}
-            deletePalette={deletePalette}
-            reset={reset}
-          />
+          <PaletteList allPalettes={palette} deletePalette={deletePalette} />
         }
       />
       <Route

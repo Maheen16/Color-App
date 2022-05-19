@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import { Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import PaletteDialogBox from "../PaletteDiagloBox";
+import PaletteDialogBox from "./PaletteDiagloBox";
 class PaletteFormNav extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +23,9 @@ class PaletteFormNav extends Component {
   hideForm = () => {
     this.setState({ showingForm: false });
   };
-  componentDidMount() {
-    console.log("paletteFormNav");
-  }
+  // componentDidMount() {
+  //   console.log("paletteFormNav");
+  // }
   render() {
     const {
       palette,
